@@ -23,7 +23,7 @@ $ (plumcot-prodigy) python -m spacy download en_core_web_sm
 # this assumes that data/ directory contains the following files:
 # * TheBigBangTheory.Season01.Episode01.aligned
 # * TheBigBangTheory.Season01.Episode01.mkv
-$ prodigy check_forced_alignment my_dataset -F plumcot_prodigy/recipes.py
+$ (plumcot-prodigy) prodigy check_forced_alignment my_dataset -F plumcot_prodigy/recipes.py
 
 Added dataset my_dataset to database SQLite.
 
