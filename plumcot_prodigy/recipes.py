@@ -34,11 +34,13 @@ def stream():
         "TheBigBangTheory.Season01.Episode01",
     ]:
 
+        series, _, _ = episode.split('.')
+        
         # path to mkv -- hardcoded for now
-        mkv = f"./data/{episode}.mkv"
+        mkv = f"/vol/work3/lefevre/dvd_extracted/{series}/{episode}.mkv"
 
         # path to forced alignment -- hardcoded for now
-        aligned = f"./data/{episode}.aligned"
+        aligned = f"/vol/work/lerner/pyannote-db-plumcot/Plumcot/data/{series}/forced-alignment/{episode}.aligned"
 
         # load forced alignment
         transcript = forced_alignment(aligned)
