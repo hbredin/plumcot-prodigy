@@ -49,62 +49,67 @@ def stream():
             all_episodes_series += episodes_file
     
     # final list of all episodes
-    episodes_list = [episode.split(',')[0] for episode in all_episodes_series.split('\n')]
+    #episodes_list = [episode.split(',')[0] for episode in all_episodes_series.split('\n')]
+    episodes_list = ["TheBigBangTheory.Season01.Episode01", "TheBigBangTheory.Season01.Episode03"]
+    counter = 0
     
-    for episode in ["TheBigBangTheory.Season01.Episode01", "TheBigBangTheory.Season01.Episode03"]:
-
-        series, _, _ = episode.split('.')
-        
-        # path to mkv -- hardcoded for now
-        mkv = f"/vol/work3/lefevre/dvd_extracted/{series}/{episode}.mkv"
-        #print("Chemin mkv ", mkv)
-
-        # path to forced alignment -- hardcoded for now
-        aligned = f"/vol/work/lerner/pyannote-db-plumcot/Plumcot/data/{series}/forced-alignment/{episode}.aligned"
-        #print("Chemin aligned", aligned)
-        # load forced alignment        
-        transcript = forced_alignment(aligned)      
-        sentences = list(transcript.sents)
-        #print("Sentences and type", sentences, type(sentences))
-        
-        print("Début et fin", sentences[0], "/", sentences[-1])
-        # choose one sentence randomly
-        sentence_begining = sentences[0]
-        sentence_end = sentences[-1]
-        print("Phrase envoyée dans Prodigy" , sentence_end, type(sentence_end))
-
-        # load its attributes from forced alignment
-        speaker = sentence_begining._.speaker
-        print(speaker)
-        start_time_b = sentence_begining._.start_time
-        print(start_time_b)
-        end_time_b = sentence_begining._.end_time
-        print(end_time_b)
+    while counter < len(episodes_list):
+    
+        for episode in episodes_list:
+    
+            series, _, _ = episode.split('.')
             
-        # extract corresponding video excerpt
-        video_excerpt_b = mkv_to_base64(mkv, start_time_b, end_time_b)
+            # path to mkv -- hardcoded for now
+            mkv = f"/vol/work3/lefevre/dvd_extracted/{series}/{episode}.mkv"
+            #print("Chemin mkv ", mkv)
+    
+            # path to forced alignment -- hardcoded for now
+            aligned = f"/vol/work/lerner/pyannote-db-plumcot/Plumcot/data/{series}/forced-alignment/{episode}.aligned"
+            #print("Chemin aligned", aligned)
+            # load forced alignment        
+            transcript = forced_alignment(aligned)      
+            sentences = list(transcript.sents)
+            #print("Sentences and type", sentences, type(sentences)) 
             
-        # load its attributes from forced alignment
-        speaker = sentence_end._.speaker
-        print(speaker)
-        start_time = sentence_end._.start_time
-        print(start_time)
-        end_time = sentence_end._.end_time
-        print(end_time)
+            print("Début et fin", sentences[0], "/", sentences[-1])
+            # choose one sentence randomly
+            sentence_begining = sentences[0]
+            sentence_end = sentences[-1]
+            print("Phrase envoyée dans Prodigy" , sentence_end, type(sentence_end))
 
-        # extract corresponding video excerpt
-        video_excerpt_e = mkv_to_base64(mkv, start_time, end_time)
-        #print("Extrait video", type(video_excerpt))
+            # load its attributes from forced alignment
+            speaker = sentence_begining._.speaker
+            print(speaker)
+            start_time_b = sentence_begining._.start_time
+            print(start_time_b)
+            end_time_b = sentence_begining._.end_time
+            print(end_time_b)
+            
+            # extract corresponding video excerpt
+            video_excerpt_b = mkv_to_base64(mkv, start_time_b, end_time_b)
+            
+            # load its attributes from forced alignment
+            speaker = sentence_end._.speaker
+            print(speaker)
+            start_time = sentence_end._.start_time
+            print(start_time)
+            end_time = sentence_end._.end_time
+            print(end_time)
 
-        yield {
+            # extract corresponding video excerpt
+            video_excerpt_e = mkv_to_base64(mkv, start_time, end_time)
+            #print("Extrait video", type(video_excerpt))
+            counter +=1
+
+            yield {
                 "video": video_excerpt_b,
                 "text": f"{speaker}: {sentence_begining}",
                 "meta": {"start": start_time_b, "end": end_time_b, "episode": episode},
             }
             
-        yield {
+            yield {
                 "video": video_excerpt_e,
-                "text": f"{speaker}: {sentence_end}",
+                "text": f"{speaker}: {sentence_begining}",
                 "meta": {"start": start_time, "end": end_time, "episode": episode},
             }
 
