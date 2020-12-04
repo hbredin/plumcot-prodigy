@@ -26,23 +26,6 @@ def remove_video_before_db(examples: List[Dict]) -> List[Dict]:
 
     return examples
 
-def begining_ending_sentences(sentence, mkv, episode):
-    # load its attributes from forced alignment
-    speaker = sentence._.speaker
-    print(speaker)
-    start_time = sentence._.start_time
-    print(start_time)
-    end_time = sentence._.end_time
-    print(end_time)
-            
-    # extract corresponding video excerpt
-    video_excerpt = mkv_to_base64(mkv, start_time, end_time)
-    yield {
-                "video": video_excerpt,
-                "text": f"{speaker}: {sentence}",
-                "meta": {"start": start_time, "end": end_time, "episode": episode},
-            }
-    
 
 def stream():
 
@@ -67,10 +50,10 @@ def stream():
     
     # final list of all episodes
     #episodes_list = [episode.split(',')[0] for episode in all_episodes_series.split('\n')]
-    episodes_list = ["TheBigBangTheory.Season01.Episode01", "TheBigBangTheory.Season01.Episode03", "TheBigBangTheory.Season01.Episode08"]
+    episodes_list = ["TheBigBangTheory.Season01.Episode01", "TheBigBangTheory.Season01.Episode03"]
     counter = 0
     
-    while counter < len(episodes_list):
+    while counter < 10:
     
         for episode in episodes_list:
     
@@ -89,13 +72,46 @@ def stream():
             #print("Sentences and type", sentences, type(sentences)) 
             
             print("Début et fin", sentences[0], "/", sentences[-1])
-            # choose begining and ending sentences
+            # choose one sentence randomly
             sentence_begining = sentences[0]
-            sentence_ending = sentences[-1]
+            sentence_end = sentences[-1]
+            print("Phrase envoyée dans Prodigy" , sentence_end, type(sentence_end))
 
-            begining_ending_sentences(sentence_begining, mkv, episode)
-            begining_ending_sentences(sentence_ending, mkv, episode)
-            counter +=1 
+            # load its attributes from forced alignment
+            speaker_b = sentence_begining._.speaker
+            print(speaker_b)
+            start_time_b = sentence_begining._.start_time
+            print(start_time_b)
+            end_time_b = sentence_begining._.end_time
+            print(end_time_b)
+            
+            # extract corresponding video excerpt
+            video_excerpt_b = mkv_to_base64(mkv, start_time_b, end_time_b)
+            
+            # load its attributes from forced alignment
+            speaker = sentence_end._.speaker
+            print(speaker)
+            start_time = sentence_end._.start_time
+            print(start_time)
+            end_time = sentence_end._.end_time
+            print(end_time)
+
+            # extract corresponding video excerpt
+            video_excerpt_e = mkv_to_base64(mkv, start_time, end_time)
+            #print("Extrait video", type(video_excerpt))
+            counter +=1
+
+            yield {
+                "video": video_excerpt_b,
+                "text": f"{speaker}: {sentence_begining}",
+                "meta": {"start": start_time_b, "end": end_time_b, "episode": episode},
+            }
+            
+            yield {
+                "video": video_excerpt_e,
+                "text": f"{speaker}: {sentence_end}",
+                "meta": {"start": start_time, "end": end_time, "episode": episode},
+            }
 
 
 @prodigy.recipe(
