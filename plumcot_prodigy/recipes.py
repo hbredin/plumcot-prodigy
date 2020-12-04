@@ -53,7 +53,7 @@ def stream():
     episodes_list = ["TheBigBangTheory.Season01.Episode01", "TheBigBangTheory.Season01.Episode03"]
     counter = 0
     
-    while counter < len(episodes_list)+1:
+    while counter < len(episodes_list):
     
         for episode in episodes_list:
     
@@ -109,7 +109,7 @@ def stream():
             
             yield {
                 "video": video_excerpt_e,
-                "text": f"{speaker}: {sentence_end}",
+                "text": f"{speaker}: {sentence_begining}",
                 "meta": {"start": start_time, "end": end_time, "episode": episode},
             }
 
