@@ -63,10 +63,10 @@ def stream():
         aligned = f"/vol/work/lerner/pyannote-db-plumcot/Plumcot/data/{series}/forced-alignment/{episode}.aligned"
         print("Chemin aligned", aligned)
         # load forced alignment        
-        transcript = forced_alignment(aligned)
-        print("Script", transcript)        
+        transcript = forced_alignment(aligned)      
         sentences = list(transcript.sents)
-        print("Sentences", sentences)
+        print("Sentences and type", sentences, type(sentences))
+        print(sentences[0], sentences[:-1])
 
         while True:
 
