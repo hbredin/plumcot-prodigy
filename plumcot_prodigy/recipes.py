@@ -69,7 +69,7 @@ def stream():
         
 
         while True:
-            print("Début et fin", sentences[0], "/", sentences[:-1])
+            print("Début et fin", sentences[0], "/", sentences[-1])
             # choose one sentence randomly
             sentence = random.choice(sentences)
             print("Phrase envoyée dans Prodigy" , sentence, type(sentence))
