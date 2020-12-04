@@ -99,7 +99,7 @@ def stream():
             # extract corresponding video excerpt
             video_excerpt_e = mkv_to_base64(mkv, start_time, end_time)
             #print("Extrait video", type(video_excerpt))
-            counter +=1
+            
 
             yield {
                 "video": video_excerpt_b,
@@ -112,6 +112,7 @@ def stream():
                 "text": f"{speaker}: {sentence_end}",
                 "meta": {"start": start_time, "end": end_time, "episode": episode},
             }
+            counter +=1
 
 
 @prodigy.recipe(
