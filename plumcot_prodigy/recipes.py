@@ -93,8 +93,8 @@ def stream():
             sentence_begining = sentences[0]
             sentence_ending = sentences[-1]
 
-            begining_ending_sentences(sentence_begining, mkv)
-            begining_ending_sentences(sentence_ending, mkv)
+            begining_ending_sentences(sentence_begining, mkv, episode)
+            begining_ending_sentences(sentence_ending, mkv, episode)
             counter +=1 
 
 
