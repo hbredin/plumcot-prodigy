@@ -30,8 +30,7 @@ def remove_video_before_db(examples: List[Dict]) -> List[Dict]:
 def stream():
 
     forced_alignment = ForcedAlignment()
-    
-    #AJOUT 
+ 
     # gather all episodes of all series together
     all_episodes_series = ""
     # path to series directories
@@ -51,32 +50,27 @@ def stream():
     # final list of all episodes
     #episodes_list = [episode.split(',')[0] for episode in all_episodes_series.split('\n')]
     episodes_list = ["TheBigBangTheory.Season01.Episode04", "TheBigBangTheory.Season01.Episode05"]
+    
     counter = 0
     
     while counter < len(episodes_list):
     
-        for episode in episodes_list:
-    
+        for episode in episodes_list:    
             series, _, _ = episode.split('.')
             
             # path to mkv -- hardcoded for now
             mkv = f"/vol/work3/lefevre/dvd_extracted/{series}/{episode}.mkv"
-            #print("Chemin mkv ", mkv)
     
             # path to forced alignment -- hardcoded for now
             aligned = f"/vol/work/lerner/pyannote-db-plumcot/Plumcot/data/{series}/forced-alignment/{episode}.aligned"
-            #print("Chemin aligned", aligned)
+
             # load forced alignment        
             transcript = forced_alignment(aligned)      
             sentences = list(transcript.sents)
-            #print("Sentences and type", sentences, type(sentences))    
 
-        
-            print("Début et fin", sentences[0], "/", sentences[-1])
-            # choose one sentence randomly
+            # select the first and the last sentences of the episode
             sentence_begining = sentences[0]
             sentence_end = sentences[-1]
-            print("Phrase envoyée dans Prodigy" , sentence_end, type(sentence_end))
 
             # load its attributes from forced alignment
             speaker = sentence_begining._.speaker
