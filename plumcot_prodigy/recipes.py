@@ -51,7 +51,7 @@ def stream():
     # final list of all episodes
     episodes_list = [episode.split(',')[0] for episode in all_episodes_series.split('\n')]
     
-    for episode in ["TheOffice.Season09.Episode22"]:
+    for episode in ["TheOffice.Season01.Episode05"]:
 
         series, _, _ = episode.split('.')
         
