@@ -69,8 +69,9 @@ def stream():
             # load forced alignment        
             transcript = forced_alignment(aligned)      
             sentences = list(transcript.sents)
-            #print("Sentences and type", sentences, type(sentences)) 
-            
+            #print("Sentences and type", sentences, type(sentences))    
+
+        
             print("Début et fin", sentences[0], "/", sentences[-1])
             # choose one sentence randomly
             sentence_begining = sentences[0]
@@ -78,8 +79,8 @@ def stream():
             print("Phrase envoyée dans Prodigy" , sentence_end, type(sentence_end))
 
             # load its attributes from forced alignment
-            speaker_b = sentence_begining._.speaker
-            print(speaker_b)
+            speaker = sentence_begining._.speaker
+            print(speaker)
             start_time_b = sentence_begining._.start_time
             print(start_time_b)
             end_time_b = sentence_begining._.end_time
@@ -88,6 +89,12 @@ def stream():
             # extract corresponding video excerpt
             video_excerpt_b = mkv_to_base64(mkv, start_time_b, end_time_b)
             
+            yield {
+                "video": video_excerpt_b,
+                "text": f"{speaker}: {sentence_begining}",
+                "meta": {"start": start_time_b, "end": end_time_b, "episode": episode},
+            }
+            
             # load its attributes from forced alignment
             speaker = sentence_end._.speaker
             print(speaker)
@@ -95,17 +102,10 @@ def stream():
             print(start_time)
             end_time = sentence_end._.end_time
             print(end_time)
-
+            
             # extract corresponding video excerpt
             video_excerpt_e = mkv_to_base64(mkv, start_time, end_time)
             #print("Extrait video", type(video_excerpt))
-            
-
-            yield {
-                "video": video_excerpt_b,
-                "text": f"{speaker_b}: {sentence_begining}",
-                "meta": {"start": start_time_b, "end": end_time_b, "episode": episode},
-            }
             
             yield {
                 "video": video_excerpt_e,
