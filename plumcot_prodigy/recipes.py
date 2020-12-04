@@ -53,7 +53,7 @@ def stream():
     episodes_list = ["TheBigBangTheory.Season01.Episode01", "TheBigBangTheory.Season01.Episode03"]
     counter = 0
     
-    while counter < len(episodes_list):
+    while counter < len(episodes_list)+1:
     
         for episode in episodes_list:
     
