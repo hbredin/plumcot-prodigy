@@ -50,7 +50,7 @@ def stream():
     
     # final list of all episodes
     #episodes_list = [episode.split(',')[0] for episode in all_episodes_series.split('\n')]
-    episodes_list = ["TheBigBangTheory.Season01.Episode01", "TheBigBangTheory.Season01.Episode03"]
+    episodes_list = ["TheBigBangTheory.Season01.Episode04", "TheBigBangTheory.Season01.Episode05"]
     counter = 0
     
     while counter < len(episodes_list):
