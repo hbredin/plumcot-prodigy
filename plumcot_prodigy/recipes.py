@@ -50,7 +50,7 @@ def stream():
     
     # final list of all episodes
     #episodes_list = [episode.split(',')[0] for episode in all_episodes_series.split('\n')]
-    episodes_list = ["TheBigBangTheory.Season01.Episode01", "TheBigBangTheory.Season01.Episode03"]
+    episodes_list = ["TheBigBangTheory.Season01.Episode01", "TheBigBangTheory.Season01.Episode03", "TheBigBangTheory.Season01.Episode08"]
     counter = 0
     
     while counter < len(episodes_list):
@@ -87,6 +87,11 @@ def stream():
             
             # extract corresponding video excerpt
             video_excerpt_b = mkv_to_base64(mkv, start_time_b, end_time_b)
+            yield {
+                "video": video_excerpt_b,
+                "text": f"{speaker}: {sentence_begining}",
+                "meta": {"start": start_time_b, "end": end_time_b, "episode": episode},
+            }
             
             # load its attributes from forced alignment
             speaker = sentence_end._.speaker
@@ -99,19 +104,14 @@ def stream():
             # extract corresponding video excerpt
             video_excerpt_e = mkv_to_base64(mkv, start_time, end_time)
             #print("Extrait video", type(video_excerpt))
-            counter +=1
-
-            yield {
-                "video": video_excerpt_b,
-                "text": f"{speaker}: {sentence_begining}",
-                "meta": {"start": start_time_b, "end": end_time_b, "episode": episode},
-            }
+                       
             
             yield {
                 "video": video_excerpt_e,
-                "text": f"{speaker}: {sentence_begining}",
+                "text": f"{speaker}: {sentence_end}",
                 "meta": {"start": start_time, "end": end_time, "episode": episode},
             }
+            counter +=1 
 
 
 @prodigy.recipe(
