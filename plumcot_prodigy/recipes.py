@@ -56,7 +56,7 @@ def stream():
         series, _, _ = episode.split('.')
         
         # path to mkv -- hardcoded for now
-        mkv = f"/vol/work3/lefevre/dvd_extracted/{series}/{episode}.mkv"
+        mkv = f"/vol/work1/maurice/dvd_extracted/{series}/{episode}.mkv"
         print("Chemin mkv ", mkv)
 
         # path to forced alignment -- hardcoded for now
