@@ -65,14 +65,14 @@ def stream():
         # load forced alignment        
         transcript = forced_alignment(aligned)      
         sentences = list(transcript.sents)
-        print("Sentences and type", sentences, type(sentences))
-        print(sentences[0], sentences[:-1])
+        #print("Sentences and type", sentences, type(sentences))
+        
 
         while True:
-
+            print("Début et fin", sentences[0], "/", sentences[:-1])
             # choose one sentence randomly
             sentence = random.choice(sentences)
-            print(sentence, type(sentence))
+            print("Phrase envoyée dans Prodigy" , sentence, type(sentence))
 
             # load its attributes from forced alignment
             speaker = sentence._.speaker
@@ -84,7 +84,7 @@ def stream():
 
             # extract corresponding video excerpt
             video_excerpt = mkv_to_base64(mkv, start_time, end_time)
-            print("Extrait video", type(video_excerpt))
+            #print("Extrait video", type(video_excerpt))
 
             yield {
                 "video": video_excerpt,
