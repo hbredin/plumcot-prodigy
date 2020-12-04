@@ -51,7 +51,7 @@ def stream():
     # final list of all episodes
     episodes_list = [episode.split(',')[0] for episode in all_episodes_series.split('\n')]
     
-    for episode in episodes_list[:-1]:
+    for episode in ["TheBigBangTheory.Season01.Episode01"]:
 
         series, _, _ = episode.split('.')
         
