@@ -109,7 +109,7 @@ def stream():
             
             yield {
                 "video": video_excerpt_e,
-                "text": f"{speaker}: {sentence_begining}",
+                "text": f"{speaker}: {sentence_end}",
                 "meta": {"start": start_time, "end": end_time, "episode": episode},
             }
 
