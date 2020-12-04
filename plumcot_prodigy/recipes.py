@@ -71,24 +71,42 @@ def stream():
         while True:
             print("Début et fin", sentences[0], "/", sentences[-1])
             # choose one sentence randomly
-            sentence = sentences[-1]
-            print("Phrase envoyée dans Prodigy" , sentence, type(sentence))
+            sentence_begining = sentences[0]
+            sentence_end = sentences[-1]
+            print("Phrase envoyée dans Prodigy" , sentence_end, type(sentence_end))
 
             # load its attributes from forced alignment
-            speaker = sentence._.speaker
+            speaker = sentence_begining._.speaker
             print(speaker)
-            start_time = sentence._.start_time
+            start_time_b = sentence_begining._.start_time
+            print(start_time_b)
+            end_time_b = sentence_begining._.end_time
+            print(end_time_b)
+            
+            # extract corresponding video excerpt
+            video_excerpt_b = mkv_to_base64(mkv, start_time_b, end_time_b)
+            
+            # load its attributes from forced alignment
+            speaker = sentence_end._.speaker
+            print(speaker)
+            start_time = sentence_end._.start_time
             print(start_time)
-            end_time = sentence._.end_time
+            end_time = sentence_end._.end_time
             print(end_time)
 
             # extract corresponding video excerpt
-            video_excerpt = mkv_to_base64(mkv, start_time, end_time)
+            video_excerpt_e = mkv_to_base64(mkv, start_time, end_time)
             #print("Extrait video", type(video_excerpt))
 
             yield {
-                "video": video_excerpt,
-                "text": f"{speaker}: {sentence}",
+                "video": video_excerpt_b,
+                "text": f"{speaker}: {sentence_end}",
+                "meta": {"start": start_time_b, "end": end_time_b, "episode": episode},
+            }
+            
+            yield {
+                "video": video_excerpt_e,
+                "text": f"{speaker}: {sentence_begining}",
                 "meta": {"start": start_time, "end": end_time, "episode": episode},
             }
 
